@@ -3,7 +3,7 @@ import { getAuthKey } from '../lib/authkey.js';
 import settings from '../lib/settings.js';
 import _ from 'lodash';
 import common from '../../../lib/common/common.js';
-import { anaylizeGachaLog, updateGachaLog } from '../lib/gacha.js';
+import { anaylizeGachaLog, updateGachaLog, updateGachaLog_os } from '../lib/gacha.js';
 import { getZZZGachaLink, getZZZGachaLogByAuthkey } from '../lib/gacha/core.js';
 import { gacha_type_meta_data } from '../lib/gacha/const.js';
 import { getQueryVariable } from '../utils/network.js';
@@ -123,10 +123,22 @@ export class GachaLog extends ZZZPlugin {
   }
   async refreshGachaLog() {
     const uid = await this.getUID();
-    if (/^(1[0-9])[0-9]{8}/i.test(uid)) {
-      return this.reply('国际服不支持此功能');
-    }
     if (!uid) return false;
+    if (/^(1[0-9])[0-9]{8}/i.test(uid)) {
+      const { api, deviceFp } = await this.getAPI();
+      this.reply('抽卡记录获取中请稍等...可能需要一段时间，请耐心等待');
+      const { data, count } = await updateGachaLog_os(api, uid, deviceFp);
+      let msg = [];
+      msg.push(`抽卡记录更新成功，共${Object.keys(data).length}个卡池`);
+      for (const name in data) {
+        msg.push(
+          `${name}新增${count[name] || 0}条记录，一共${data[name].length}条记录`
+        );
+      }
+      return this.reply(
+        await common.makeForwardMsg(this.e, msg.join('\n'), '抽卡记录更新成功')
+      );
+    }
     const lastQueryTime = await redis.get(`ZZZ:GACHA:${uid}:LASTTIME`);
     const gachaConfig = settings.getConfig('gacha');
     const coldTime = _.get(gachaConfig, 'interval', 300);

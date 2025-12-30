@@ -1,13 +1,16 @@
-/** @type {import('../../BuffManager.ts').BuffManager['buffs']} */
+/** @type {import('#interface').buff[]} */
 export const buffs = [
   {
     name: '4影',
     type: '暴击伤害',
+    teamTarget: ({ teammates }) => teammates, // 仅对队友生效
     value: 0.1
   },
   {
     name: '技能：加油！',
     type: '攻击力',
+    teamTarget: true, // 全队生效
+    showInPanel: true,
     value: ({ calc }) => {
       const ratio = calc.calc_value('E1')
       const fixed = calc.calc_value('E2')
@@ -16,7 +19,7 @@ export const buffs = [
   }
 ]
 
-/** @type {import('../../Calculator.ts').skill['before']} */
+/** @type {import('#interface').skill['before']} */
 const before = ({ calc, usefulBuffs, props }) => {
   const jiayou = usefulBuffs.find(buff => buff.name === '技能：加油！')
   const delta = calc.calc_value(jiayou?.value)
@@ -25,7 +28,7 @@ const before = ({ calc, usefulBuffs, props }) => {
   usefulBuffs.splice(0, usefulBuffs.length)
 }
 
-/** @type {import('../../Calculator.ts').Calculator['skills']} */
+/** @type {import('#interface').skill[]} */
 export const skills = [
   { name: '灼烧', type: '灼烧' },
   { name: '普攻：淑女的球棍四段', type: 'AP4' },

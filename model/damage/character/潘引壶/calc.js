@@ -1,14 +1,17 @@
-/** @type {import('../../BuffManager.ts').BuffManager['buffs']} */
+/** @type {import('#interface').buff[]} */
 export const buffs = [
   {
     name: '1影',
     type: '增伤',
     value: 0.1,
-    is: { team: true }
+    teamTarget: true
   },
   {
     name: '核心被动：脉中乾坤',
     type: '贯穿力',
+    teamTarget: ({ teammates, runtime }) =>
+      teammates.filter(v => v.avatar_profession == runtime.professionEnum.命破), // 仅命破队友生效
+    showInPanel: true,
     value: ({ avatar, calc }) => {
       const initial_ATK = avatar.initial_properties.ATK
       const level = calc.get_SkillLevel('T')
@@ -18,18 +21,17 @@ export const buffs = [
         return Math.min(720, initial_ATK * multiplier + ATK * 0.06)
       }
       return Math.min(540, initial_ATK * multiplier)
-    },
-    is: { team: true }
+    }
   },
   {
     name: '额外能力：食铁纳金',
     type: '增伤',
     value: 0.2,
-    is: { team: true }
+    teamTarget: true
   }
 ]
 
-/** @type {import('../../Calculator.ts').Calculator['skills']} */
+/** @type {import('#interface').skill[]} */
 export const skills = [
   { name: '普攻：极意连打四段', type: 'AP4' },
   { name: '闪避反击：移峰倒海', type: 'CF' },

@@ -1,4 +1,4 @@
-/** @type {import('../../BuffManager.ts').BuffManager['buffs']} */
+/** @type {import('#interface').buff[]} */
 export const buffs = [
   {
     name: '1影',
@@ -9,9 +9,7 @@ export const buffs = [
     name: '2影',
     type: '暴击伤害',
     value: 0.22,
-    is: {
-      team: true
-    }
+    teamTarget: true
   },
   {
     name: '4影',
@@ -28,20 +26,17 @@ export const buffs = [
     name: '核心被动：虎虎生威',
     type: '暴击伤害',
     value: [0.1, 0.117, 0.133, 0.15, 0.167, 0.183, 0.2],
-    is: {
-      team: true
-    }
+    teamTarget: true
   },
   {
     name: '核心被动：虎虎生威',
     type: '暴击伤害',
+    showInPanel: true,
+    teamTarget: true,
     value: ({ avatar }) => {
       const ATK = avatar.initial_properties.ATK
       if (ATK <= 2800) return 0
       return Math.min(0.3, (ATK - 2800) / 100 * 0.05)
-    },
-    is: {
-      team: true
     }
   },
   {
@@ -49,18 +44,14 @@ export const buffs = [
     type: '增伤',
     value: [0.1, 0.117, 0.133, 0.15, 0.167, 0.183, 0.2],
     range: ['RL'],
-    is: {
-      team: true
-    }
+    teamTarget: true
   },
   {
     name: '核心被动：虎虎生威',
     type: '增伤',
     value: [0.2, 0.233, 0.267, 0.3, 0.333, 0.367, 0.4],
     range: ['RZ'],
-    is: {
-      team: true
-    }
+    teamTarget: true
   },
   {
     name: '核心被动：虎虎生威',
@@ -69,7 +60,7 @@ export const buffs = [
   }
 ]
 
-/** @type {import('../../Calculator.ts').Calculator['skills']} */
+/** @type {import('#interface').skill[]} */
 export const skills = [
   { name: '灼烧', type: '灼烧' },
   { name: '普攻：恶虎七式·燎身爪四段', type: 'AP4' },

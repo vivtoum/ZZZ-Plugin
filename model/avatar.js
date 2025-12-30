@@ -214,6 +214,7 @@ export class ZZZAvatarInfo {
       rank,
       ranks,
       isNew,
+      role_vertical_painting_url,
     } = data;
     /** @type {number} 角色ID */
     this.id = id;
@@ -223,13 +224,13 @@ export class ZZZAvatarInfo {
     this.name_mi18n = name_mi18n;
     /** @type {string} 角色全名 */
     this.full_name_mi18n = full_name_mi18n;
-    /** @type {number} 元素种类 */
+    /** @type {import('#interface').elementEnum} 元素种类 */
     this.element_type = element_type;
     /** @type {number} 子元素种类 */
     this.sub_element_type = sub_element_type;
     /** @type {string} */
     this.camp_name_mi18n = camp_name_mi18n;
-    /** @type {number} 职业 */
+    /** @type {import('#interface').professionEnum} 职业 */
     this.avatar_profession = avatar_profession;
     /** @type {string} 稀有度 */
     this.rarity = rarity;
@@ -261,6 +262,8 @@ export class ZZZAvatarInfo {
     this.element_str = element.IDToElement(element_type, sub_element_type);
     /** @type {boolean} */
     this.isNew = isNew;
+    /** @type {string} 立绘链接 */
+    this.role_vertical_painting_url = role_vertical_painting_url;
     /** @type {number}  等级级别（取十位数字）*/
     this.level_rank = Math.floor(this.level / 10);
     const weight = Score.getFinalWeight(this);
@@ -362,9 +365,12 @@ export class ZZZAvatarInfo {
     return this._damages = avatar_calc(this)?.calc();
   }
 
-  /** @type {number|boolean} */
+  get showInPanelBuffs() {
+    return avatar_calc(this)?.calc_showInPanel_buffs();
+  }
+
   get equip_score() {
-    if (!this.equip?.length) return false;
+    if (!this.equip?.length) return 0;
     if (this.scoreWeight) {
       let score = 0;
       for (const equip of this.equip) {
@@ -372,36 +378,37 @@ export class ZZZAvatarInfo {
       }
       return score;
     }
-    return false;
+    return 0;
   }
 
-  /** @type {'C'|'B'|'A'|'S'|'SS'|'SSS'|'ACE'|'MAX'|false} */
+  /** @type {'C'|'B'|'A'|'S'|'SS'|'SSS'|'ACE'|'MAX'} */
   get equip_comment() {
-    if (this.equip_score < 80) {
+    const score = this.equip_score;
+    if (score < 80) {
       return 'C';
     }
-    if (this.equip_score < 120) {
+    if (score < 120) {
       return 'B';
     }
-    if (this.equip_score < 160) {
+    if (score < 160) {
       return 'A';
     }
-    if (this.equip_score < 180) {
+    if (score < 180) {
       return 'S';
     }
-    if (this.equip_score < 200) {
+    if (score < 200) {
       return 'SS';
     }
-    if (this.equip_score < 220) {
+    if (score < 220) {
       return 'SSS';
     }
-    if (this.equip_score < 280) {
+    if (score < 280) {
       return 'ACE';
     }
-    if (this.equip_score >= 280) {
+    if (score >= 280) {
       return 'MAX';
     }
-    return false;
+    return 'C';
   }
 
   /** @type {number} 练度分数 */
@@ -412,10 +419,7 @@ export class ZZZAvatarInfo {
     } else if (this.rarity === 'A') {
       base_score = 4;
     }
-    let score = 0;
-    if (this.equip_score !== false) {
-      score += this.equip_score * 2;
-    }
+    let score = this.equip_score * 2;
     for (const skill of this.skills) {
       score += skill.level * base_score;
     }
@@ -527,7 +531,8 @@ export class ZZZAvatarInfo {
       }
     }
     if (!role_icon) {
-      role_icon = await getRoleImage(this.id);
+      const skin_id = this.role_vertical_painting_url?.match?.(/role_vertical_painting_\d+_(\d+).png$/)?.[1] || '';
+      role_icon = await getRoleImage(this.id, skin_id);
     }
     /** @type {string} */
     this.role_icon = role_icon;

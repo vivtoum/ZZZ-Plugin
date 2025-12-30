@@ -1,4 +1,4 @@
-/** @type {import('../../BuffManager.ts').BuffManager['buffs']} */
+/** @type {import('#interface').buff[]} */
 export const buffs = [
   {
     name: '6影',
@@ -9,11 +9,12 @@ export const buffs = [
   {
     name: '核心被动：守望者',
     type: '异常精通',
+    teamTarget: ({ teammates }) => teammates,
     value: 'T'
   }
 ]
 
-/** @type {import('../../Calculator.ts').Calculator['skills']} */
+/** @type {import('#interface').skill[]} */
 export const skills = [
   { name: '感电每次', type: '感电' },
   {

@@ -1,4 +1,4 @@
-/** @type {import('../../BuffManager.ts').BuffManager['buffs']} */
+/** @type {import('#interface').buff[]} */
 export const buffs = [
   {
     name: '4影',
@@ -9,11 +9,12 @@ export const buffs = [
   {
     name: '额外能力：协议合同',
     type: '暴击率',
+    teamTarget: true,
     value: 0.16
   }
 ]
 
-/** @type {import('../../Calculator.ts').Calculator['skills']} */
+/** @type {import('#interface').skill[]} */
 export const skills = [
   { name: '普攻：对账三段', type: 'AP3', element: 'Physical' },
   { name: '闪避反击：清算', type: 'CF' },

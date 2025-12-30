@@ -1,4 +1,4 @@
-/** @type {import('../../BuffManager.ts').BuffManager['buffs']} */
+/** @type {import('#interface').buff[]} */
 export const buffs = [
   {
     name: '1影',
@@ -17,7 +17,7 @@ export const buffs = [
     range: ['EPLP', 'EPLZ']
   },
   {
-    name: '6影额外能力：业务搭档',
+    name: '额外能力：业务搭档',
     type: '增伤',
     value: 0.3,
     check: 6
@@ -27,11 +27,12 @@ export const buffs = [
     type: '增伤',
     value: 0.3,
     check: ({ avatar }) => avatar.rank < 6,
-    range: ['追加攻击']
+    teamTarget: true,
+    range: ['追加攻击'] // 6影以下只对追加攻击生效
   }
 ]
 
-/** @type {import('../../Calculator.ts').Calculator['skills']} */
+/** @type {import('#interface').skill[]} */
 export const skills = [
   { name: '普攻：捷击三段', type: 'AP3' },
   { name: '长按普攻：跃击', type: 'AX' },

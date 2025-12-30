@@ -1,24 +1,27 @@
-/** @type {import('../../BuffManager.ts').BuffManager['buffs']} */
+/** @type {import('#interface').buff[]} */
 export const buffs = [
   {
     name: '6影',
     type: '暴击率',
+    teamTarget: true,
     value: 0.015 * 10
   },
   {
     name: '核心被动：机关箱',
     type: '无视防御',
+    teamTarget: true,
     value: 'T'
   },
   {
     name: '额外能力：狡兔三窟',
     type: '增伤',
+    teamTarget: true,
     value: 0.25,
     element: 'Ether'
   }
 ]
 
-/** @type {import('../../Calculator.ts').Calculator['skills']} */
+/** @type {import('#interface').skill[]} */
 export const skills = [
   { name: '侵蚀每次', type: '侵蚀' },
   { name: '闪避反击：牵制炮击', type: 'CF' },

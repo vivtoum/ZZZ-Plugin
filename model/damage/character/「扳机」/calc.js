@@ -1,8 +1,9 @@
-/** @type {import('../../BuffManager.ts').BuffManager['buffs']} */
+/** @type {import('#interface').buff[]} */
 export const buffs = [
   {
     name: '2影',
     type: '暴击伤害',
+    teamTarget: true,
     value: 0.06 * 4
   },
   {
@@ -13,7 +14,7 @@ export const buffs = [
   }
 ]
 
-/** @type {import('../../Calculator.ts').Calculator['skills']} */
+/** @type {import('#interface').skill[]} */
 export const skills = [
   // { name: '感电每次', type: '感电' },
   { name: '普攻：冷膛射击四段', type: 'AP4' },

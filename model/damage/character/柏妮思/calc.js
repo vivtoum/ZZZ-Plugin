@@ -1,4 +1,4 @@
-/** @type {import('../../BuffManager.ts').BuffManager['buffs']} */
+/** @type {import('#interface').buff[]} */
 export const buffs = [
   {
     name: '1影',
@@ -9,6 +9,7 @@ export const buffs = [
   {
     name: '2影',
     type: '穿透率',
+    teamTarget: true,
     value: 0.2
   },
   {
@@ -34,11 +35,12 @@ export const buffs = [
     name: '额外能力：星火燎原',
     type: '异常持续时间',
     value: 3,
+    teamTarget: true,
     range: ['灼烧']
   }
 ]
 
-/** @type {import('../../Calculator.ts').Calculator['skills']} */
+/** @type {import('#interface').skill[]} */
 export const skills = [
   { name: '灼烧', type: '灼烧' },
   { name: '紊乱', type: '紊乱' },

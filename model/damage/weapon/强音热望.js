@@ -1,4 +1,4 @@
-/** @type {import('../BuffManager.ts').BuffManager['buffs']} */
+/** @type {import('#interface').buff[]} */
 export const buffs = [
   {
     type: '攻击力',

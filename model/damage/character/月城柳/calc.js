@@ -1,4 +1,4 @@
-/** @type {import('../../BuffManager.ts').BuffManager['buffs']} */
+/** @type {import('#interface').buff[]} */
 export const buffs = [
   {
     name: '1影',
@@ -20,6 +20,7 @@ export const buffs = [
   {
     name: '4影',
     type: '穿透率',
+    teamTarget: true,
     value: 0.16
   },
   {
@@ -37,6 +38,7 @@ export const buffs = [
   {
     name: '核心被动：月蚀',
     type: '倍率',
+    teamTarget: true,
     value: 'T1',
     range: ['紊乱']
   },
@@ -59,7 +61,7 @@ export const buffs = [
   }
 ]
 
-/** @type {import('../../Calculator.ts').Calculator['skills']} */
+/** @type {import('#interface').skill[]} */
 export const skills = [
   { name: '感电每次', type: '感电' },
   { name: '紊乱', type: '紊乱' },

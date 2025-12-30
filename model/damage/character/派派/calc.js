@@ -1,4 +1,4 @@
-/** @type {import('../../BuffManager.ts').BuffManager['buffs']} */
+/** @type {import('#interface').buff[]} */
 export const buffs = [
   {
     name: '2影',
@@ -10,11 +10,12 @@ export const buffs = [
   {
     name: '额外能力：同步疾驰',
     type: '增伤',
+    teamTarget: true,
     value: 0.18
   }
 ]
 
-/** @type {import('../../Calculator.ts').Calculator['skills']} */
+/** @type {import('#interface').skill[]} */
 export const skills = [
   { name: '强击', isMain: true, type: '强击' },
   { name: '紊乱', type: '紊乱' },

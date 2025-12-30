@@ -1,8 +1,9 @@
-/** @type {import('../../BuffManager.ts').BuffManager['buffs']} */
+/** @type {import('#interface').buff[]} */
 export const buffs = [
   {
     name: '1影',
     type: '无视抗性',
+    teamTarget: true,
     value: 0.06 * 3
   },
   {
@@ -14,6 +15,8 @@ export const buffs = [
   {
     name: '核心被动：《如歌的行板》',
     type: '攻击力',
+    teamTarget: true,
+    showInPanel: true,
     value: ({ avatar, calc }) => {
       const isTwo = avatar.rank >= 2 // 2影额外提升
       const max = isTwo ? 1600 : 1200
@@ -24,23 +27,25 @@ export const buffs = [
   {
     name: '技能：咏叹华彩',
     type: '增伤',
+    teamTarget: true,
     value: 'E1',
     range: ['AQ', 'E', 'R'] // 排除正常普攻
   },
   {
     name: '技能：咏叹华彩',
     type: '暴击伤害',
+    teamTarget: true,
     value: 'E2',
     range: ['AQ', 'E', 'R']
   }
 ]
 
-/** @type {import('../../Calculator.ts').skill['before']} */
+/** @type {import('#interface').skill['before']} */
 const before = ({ avatar, calc, props, skill }) => {
   if (avatar.rank >= 6) props.倍率 = calc.get_SkillMultiplier(skill.type) * 2
 }
 
-/** @type {import('../../Calculator.ts').Calculator['skills']} */
+/** @type {import('#interface').skill[]} */
 export const skills = [
   { name: '普攻：《随想曲》三段', type: 'AP3' },
   {

@@ -58,9 +58,27 @@ async function importChar(charName, isWatch = false) {
             if (!fs.existsSync(calcFilePath))
                 return;
             const m = await import(`./character/${charName}/${calcFile}?${Date.now()}`);
-            if (!m.calc && (!m.buffs || !m.skills))
-                throw new Error('伤害计算文件格式错误：' + charName);
-            calcFnc.character[id] = m;
+            if (m.default) {
+                if (Array.isArray(m.default)) {
+                    calcFnc.character[id] = m.default;
+                }
+                else {
+                    calcFnc.character[id] = [m.default];
+                }
+            }
+            else {
+                calcFnc.character[id] = [{ ...m }];
+            }
+            const models = calcFnc.character[id];
+            if (!models.every(m => typeof m === 'object' && (m.calc || (m.buffs && m.skills)))) {
+                delete calcFnc.character[id];
+                throw '伤害计算代码导出格式错误';
+            }
+            models.forEach(m => {
+                const isDefault = calcFile === 'calc.js';
+                m.name ??= isDefault ? '默认' : '自定义';
+                m.author ??= isDefault ? 'UCPr' : '未知';
+            });
         };
         const scoreFilePath = path.join(dir, scoreFile);
         const loadScoreJS = async () => {
@@ -69,7 +87,7 @@ async function importChar(charName, isWatch = false) {
             const m = await import(`./character/${charName}/${scoreFile}?${Date.now()}`);
             const fnc = m.default;
             if (!fnc || typeof fnc !== 'function')
-                throw new Error('评分权重文件格式错误：' + charName);
+                '评分权重代码导出格式错误';
             scoreFnc[id] = fnc;
         };
         if (isWatch) {
@@ -104,12 +122,26 @@ async function importFile(type, name, isWatch = false) {
     }
 }
 init();
+const weakMapCalc = new WeakMap();
 export function avatar_calc(avatar) {
-    const m = calcFnc.character[avatar.id];
-    if (!m)
+    if (weakMapCalc.has(avatar))
+        return weakMapCalc.get(avatar);
+    const models = calcFnc.character[avatar.id];
+    if (!models)
         return;
+    let m = models[models.length - 1];
+    if (models.length > 1) {
+        for (const model of models) {
+            if (model.rule && model.rule(avatar)) {
+                m = model;
+                break;
+            }
+        }
+    }
+    logger.debug(`${avatar.name_mi18n} 伤害计算规则：${m.name} by ${m.author}`);
     const buffM = new BuffManager(avatar);
     const calc = new Calculator(buffM);
+    weakMapCalc.set(avatar, calc);
     logger.debug('initial_properties', avatar.initial_properties);
     weapon_buff(avatar.weapon, buffM);
     set_buff(avatar.equip, buffM);
@@ -146,13 +178,13 @@ export function set_buff(equips, buffM) {
     const setCount = {};
     for (const equip of equips) {
         if (equip.equipment_type == 5) {
-            const index = [31503, 31603, 31703, 31803, 31903].indexOf(equip.main_properties[0].property_id);
-            if (index > -1 && elementEnum[index]) {
+            const index = [31503, 31603, 31703, 31803, , 31903].indexOf(equip.main_properties[0].property_id);
+            if (index > -1 && elementEnum[index + 200]) {
                 buffM.new({
                     name: '驱动盘5号位',
                     type: '增伤',
                     value: Number(equip.main_properties[0].base.replace('%', '')) / 100,
-                    element: elementEnum[index]
+                    element: elementEnum[index + 200]
                 });
             }
         }

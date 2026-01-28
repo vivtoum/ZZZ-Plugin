@@ -17,6 +17,7 @@ export class Avatar {
     name_mi18n;
     full_name_mi18n;
     element_type;
+    sub_element_type;
     camp_name_mi18n;
     avatar_profession;
     rarity;
@@ -25,12 +26,14 @@ export class Avatar {
     rank;
     is_chosen;
     element_str;
-    constructor(id, level, name_mi18n, full_name_mi18n, element_type, camp_name_mi18n, avatar_profession, rarity, group_icon_path, hollow_icon_path, rank, is_chosen) {
+    sub_element_str;
+    constructor(id, level, name_mi18n, full_name_mi18n, element_type, sub_element_type, camp_name_mi18n, avatar_profession, rarity, group_icon_path, hollow_icon_path, rank, is_chosen) {
         this.id = id;
         this.level = level;
         this.name_mi18n = name_mi18n;
         this.full_name_mi18n = full_name_mi18n;
         this.element_type = element_type;
+        this.sub_element_type = sub_element_type;
         this.camp_name_mi18n = camp_name_mi18n;
         this.avatar_profession = avatar_profession;
         this.rarity = rarity;
@@ -38,7 +41,8 @@ export class Avatar {
         this.hollow_icon_path = hollow_icon_path;
         this.rank = rank;
         this.is_chosen = is_chosen;
-        this.element_str = element.IDToElement(element_type);
+        this.element_str = element.idToName(element_type);
+        this.sub_element_str = element.idToName(element_type, sub_element_type);
     }
 }
 export class AvatarIconPaths {
@@ -55,26 +59,30 @@ export class ZZZAvatarBasic {
     name_mi18n;
     full_name_mi18n;
     element_type;
+    sub_element_type;
     camp_name_mi18n;
     avatar_profession;
     rarity;
     rank;
     is_chosen;
     element_str;
+    sub_element_str;
     square_icon;
     constructor(data) {
-        const { id, level, name_mi18n, full_name_mi18n, element_type, camp_name_mi18n, avatar_profession, rarity, rank, is_chosen, } = data;
+        const { id, level, name_mi18n, full_name_mi18n, element_type, sub_element_type = 0, camp_name_mi18n, avatar_profession, rarity, rank, is_chosen, } = data;
         this.id = id;
         this.level = level;
         this.name_mi18n = name_mi18n;
         this.full_name_mi18n = full_name_mi18n;
         this.element_type = element_type;
+        this.sub_element_type = sub_element_type;
         this.camp_name_mi18n = camp_name_mi18n;
         this.avatar_profession = avatar_profession;
         this.rarity = rarity;
         this.rank = rank;
         this.is_chosen = is_chosen;
-        this.element_str = element.IDToElement(element_type);
+        this.element_str = element.idToName(element_type);
+        this.sub_element_str = element.idToName(element_type, sub_element_type);
     }
     async get_assets() {
         const result = await getSquareAvatar(this.id);
@@ -116,6 +124,7 @@ export class ZZZAvatarInfo {
     ranks;
     ranks_num;
     element_str;
+    sub_element_str;
     role_vertical_painting_url;
     skin_id;
     level_rank;
@@ -153,7 +162,8 @@ export class ZZZAvatarInfo {
         this.rank = rank;
         this.ranks = ranks && ranks.map(rank => new Rank(rank));
         this.ranks_num = rank;
-        this.element_str = element.IDToElement(element_type, sub_element_type);
+        this.element_str = element.idToName(element_type);
+        this.sub_element_str = element.idToName(element_type, sub_element_type);
         this.role_vertical_painting_url = role_vertical_painting_url;
         this.skin_id = this.role_vertical_painting_url?.match?.(/role_vertical_painting_\d+_(\d+).png$/)?.[1] || '';
         this.level_rank = Math.floor(this.level / 10);
@@ -181,6 +191,7 @@ export class ZZZAvatarInfo {
             penratio: this.getProperty('穿透率'),
             sprecover: this.getProperty('能量自动回复'),
             adrenalineaccumulate: this.getProperty('闪能自动累积'),
+            dmgbonus: this.properties.find(property => property.property_id == element.idToPropertyId(this.element_type)),
         };
         return data;
     }
@@ -357,8 +368,8 @@ export class ZZZAvatarInfo {
         const paths = Array.from(new Set([
             this.name_mi18n,
             this.full_name_mi18n,
-            char.IDToCharName(this.id, false),
-            char.IDToCharName(this.id, true)
+            char.idToName(this.id, false),
+            char.idToName(this.id, true)
         ].filter(Boolean))).map((p) => path.join(imageResourcesPath, 'panel', p));
         let role_icon = '';
         const custom_panel_images = paths.find(p => fs.existsSync(p));

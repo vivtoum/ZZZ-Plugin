@@ -163,6 +163,13 @@ const helpData = [
                 commands: ['上期式舆防卫战', '上期危局', '上期强袭', '上期强袭战'],
             },
             {
+                title: '查看临界推演数据',
+                desc: '查看临界推演战斗数据',
+                needCK: true,
+                needSK: false,
+                commands: ['临界推演', '临界', '推演'],
+            },
+            {
                 title: '查看式舆防卫战排名',
                 desc: '查看式舆防卫战(深渊)群排名',
                 needCK: false,
@@ -175,6 +182,13 @@ const helpData = [
                 needCK: false,
                 needSK: false,
                 commands: ['危局强袭战排名', '危局排名', '强袭战排名'],
+            },
+            {
+                title: '查看临界推演排名',
+                desc: '查看临界推演战斗群排名',
+                needCK: false,
+                needSK: false,
+                commands: ['临界推演排名', '临界排名', '推演排名'],
             },
             {
                 title: '显示/隐藏深渊排名',
@@ -550,3 +564,4 @@ export class Help extends ZZZPlugin {
         });
     }
 }
+//# sourceMappingURL=help.js.map

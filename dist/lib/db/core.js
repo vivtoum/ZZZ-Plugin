@@ -8,6 +8,7 @@ export const dbPath = {
     monthly: 'monthly',
     abyss: 'abyss',
     deadly: 'deadly',
+    voidFrontBattle: 'voidFrontBattle',
 };
 export function getDB(dbName, dbFile) {
     const db = dbPath[dbName];
@@ -77,3 +78,4 @@ export function removeAllDB(dbName) {
         return false;
     }
 }
+//# sourceMappingURL=core.js.map

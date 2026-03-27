@@ -187,19 +187,18 @@
 }
 .card .season-container .boss-team-row .list .item .c-info .score {
   font-size: 0.6em;
-  font-weight: bold;
   color: white;
 }
 .card .season-container .boss-team-row .list .item .c-info .rank {
   font-size: 0.6em;
-  font-weight: bold;
   color: white;
 }
 .card .s1 .season-content,
 .card .s2 .season-content {
   justify-content: center;
 }
-.card .s3 .season-content {
+.card .s3 .season-content,
+.card .s4 .season-content {
   justify-content: center;
 }
 .card .item-card {

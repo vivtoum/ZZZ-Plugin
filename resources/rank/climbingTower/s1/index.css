@@ -9,9 +9,8 @@ body {
 .card .record {
   display: flex;
   gap: 1em;
-  margin-bottom: 1em;
   align-items: center;
-  height: 9em;
+  height: 7em;
 }
 .card .record .user-info {
   width: 720px;
@@ -45,7 +44,6 @@ body {
 }
 .card .record .user-info .result .value .max-floor {
   font-size: 1.5em;
-  font-weight: bold;
 }
 .card .record .user-info .result .medal-icon {
   width: 3em;
@@ -73,7 +71,7 @@ body {
 }
 .card .notes-container .notes .command {
   color: #ffc107;
-  font-weight: bold;
+  padding: 0 0.3em;
 }
 
 /*# sourceMappingURL=index.css.map */

@@ -89,10 +89,10 @@ const helpData = [
         items: [
             {
                 title: '刷新角色面板',
-                desc: '%更新展柜面板 通过Enka接口获取游戏内展柜角色，无需CK',
+                desc: '%更新展柜面板 通过Enka接口获取游戏内展柜角色，无需CK；%更新角色名面板 仅米游社可指定角色更新（需CK），多名角色可用空格/逗号/顿号分隔',
                 needCK: true,
                 needSK: false,
-                commands: ['刷新面板', '更新面板', '刷新/更新展柜面板'],
+                commands: ['刷新面板', '更新面板', '刷新/更新展柜面板', '更新角色名面板', '更新角色A、角色B面板'],
             },
             {
                 title: '查看角色面板列表',
@@ -594,6 +594,13 @@ export class Help extends ZZZPlugin {
                             needCK: false,
                             needSK: false,
                             commands: ['刷新面板间隔+0~1000'],
+                        },
+                        {
+                            title: '开启/关闭面板按钮',
+                            desc: '开启/关闭 QQBot 面板操作按钮（默认关闭，仅 TRSS + QQBot 环境生效）',
+                            needCK: false,
+                            needSK: false,
+                            commands: ['开启/关闭面板按钮', '开启/关闭QQBot面板按钮'],
                         },
                         {
                             title: '添加角色别名',

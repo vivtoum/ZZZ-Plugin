@@ -1,19 +1,20 @@
 {
   "name": "zzz-plugin",
   "type": "module",
-  "version": "2.5.2",
+  "version": "2.5.3",
   "description": "绝区零云崽插件",
   "main": "index.js",
   "keywords": [],
   "author": "ZZZure",
   "scripts": {
-    "build": "node build.js",
+    "build": "sass resources:resources --update --no-error-css && node build.js",
     "build:src": "node build.js --only-src",
     "build:css": "sass resources:resources --update --no-error-css",
     "watch": "nodemon -w src -e js,ts --exec pnpm run build",
     "watch:src": "nodemon -w src -e js,ts --exec pnpm run build:src",
     "watch:css": "sass resources:resources --watch --no-error-css",
     "check": "tsc --noEmit",
+    "test": "node --experimental-vm-modules --test tests/*.test.mjs",
     "lint": "eslint \"src/**/*.ts\" \"src/**/*.js\"",
     "lint:fix": "eslint \"src/**/*.ts\" \"src/**/*.js\" --fix"
   },
